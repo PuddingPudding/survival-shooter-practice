@@ -16,7 +16,7 @@ namespace CompleteProject
         float camRayLength = 100f;          // The length of the ray from the camera into the scene.
 #endif
 
-        void Awake ()
+        void Awake () //Awake跟Start有點相似，但Awake不會因為你關掉了該程式碼(取消enabled而停止)
         {
 #if !MOBILE_INPUT
             // Create a layer mask for the floor layer.
@@ -31,6 +31,7 @@ namespace CompleteProject
 
         void FixedUpdate ()
         {
+            Debug.Log("FixedUpdate time :" + Time.deltaTime);
             // Store the input axes.
             float h = CrossPlatformInputManager.GetAxisRaw("Horizontal");
             float v = CrossPlatformInputManager.GetAxisRaw("Vertical");
@@ -43,6 +44,11 @@ namespace CompleteProject
 
             // Animate the player.
             Animating (h, v);
+        }
+
+        public void Update()
+        {
+            Debug.Log("Update time :" + Time.deltaTime);
         }
 
 
