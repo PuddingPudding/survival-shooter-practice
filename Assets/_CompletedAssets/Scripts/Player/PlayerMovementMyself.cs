@@ -32,14 +32,14 @@ public class PlayerMovementMyself : MonoBehaviour
         // Move the player around the scene.
         Move(h, v);
 
-        //// Turn the player to face the mouse cursor.
-        //Turning();
+        // Turn the player to face the mouse cursor.
+        Turning();
 
-        //// Animate the player.
-        //Animating(h, v);
+        // Animate the player.
+        Animating(h, v);
     }
 
-    public void Move(float h , float v)
+    public void Move(float h, float v)
     {
         movement.Set(h, 0f, v);
 
@@ -50,7 +50,27 @@ public class PlayerMovementMyself : MonoBehaviour
 
     public void Turning()
     {
-        
+        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit floorHit;
+
+        if (Physics.Raycast(camRay, out floorHit, camRayLength, floorMask))
+        {
+            Vector3 playerToMouse = floorHit.point - transform.position;
+            playerToMouse.y = 0f;
+
+            Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
+            playerRigidbody.MoveRotation(newRotation);
+        }
+    }
+
+    public void Animating(float h, float v)
+    {
+        // Create a boolean that is true if either of the input axes is non-zero.
+        bool walking = (h != 0f || v != 0f);
+
+        // Tell the animator whether or not the player is walking.
+        anim.SetBool("IsWalking", walking);
     }
 
     // Use this for initialization
